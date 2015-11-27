@@ -1,0 +1,33 @@
+{
+  "name": "deploy-asset-release",
+  "version": "0.0.1",
+  "description": "利用 deploy-asset 发布代码到静态服务器上，并生成文件的变化",
+  "main": "dar.js",
+  "preferGlobal": true,
+  "scripts": {
+    "test": "mocha"
+  },
+  "bin": {
+    "dar": "dar.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qiu8310/deploy-asset-release.git"
+  },
+  "keywords": [
+    "deploy",
+    "asset",
+    "release"
+  ],
+  "author": "Mora",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qiu8310/deploy-asset-release/issues"
+  },
+  "homepage": "https://github.com/qiu8310/deploy-asset-release#readme",
+  "dependencies": {
+    "cross-spawn": "^2.0.0",
+    "lac": "0.0.8",
+    "look-up": "^0.8.2"
+  }
+}
