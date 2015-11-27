@@ -1,6 +1,6 @@
 {
   "name": "deploy-asset-release",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "利用 deploy-asset 发布代码到静态服务器上，并生成文件的变化",
   "main": "dar.js",
   "preferGlobal": true,
