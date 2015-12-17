@@ -5,19 +5,28 @@ var path = require('path');
 var fs = require('fs');
 var log = require('lac').log;
 var lookup = require('look-up');
+var Download = require('download');
 
 
 var pkgPath = lookup('package.json'),
   projectDir = process.cwd(),
   spawnOpts = {stdio: 'inherit'},
-  darc, rootDir;
+  darc, rootDir, spa;
 
 
 if (pkgPath) {
   projectDir = path.dirname(path.resolve(pkgPath));
   process.chdir(projectDir);
 }
-
+process.argv.slice(2).forEach(function (arg) {
+  if (arg === '--spa') {
+    spa = true;
+  } else if (arg.indexOf('--spa=') === 0) {
+    spa = arg.substr(6);
+  } else if (spa === true) {
+    spa = arg;
+  }
+});
 
 darc = safeReadJson('./.darc');
 rootDir = darc.rootDir || 'dist';
@@ -44,6 +53,8 @@ function deployAssets() {
 
     fs.writeFileSync('./da-entry.json', JSON.stringify(entry, null, 2));
     fs.writeFileSync('./da-diff.json', JSON.stringify(diff, null, 2));
+
+    if (spa) getSPA();
 
     if (diff.delete.length || diff.update.length || diff.add.length) {
       deployMaps(diff);
@@ -76,9 +87,14 @@ function deployMaps(diff) {
       log('  **~添加文件：~**');
       outputDiffFiles(diff.add);
     }
-
     success('\n部署成功\n');
   });
+}
+
+function getSPA() {
+  var all = safeReadJson('./da-all.json');
+  if (!(spa in all)) throw new Error('找不到指定的 spa 文件 ' + spa);
+  new Download().get(all[spa]).rename(spa).dest(path.join(rootDir, 'spa')).run();
 }
 
 function outputDiffFiles(files) {
