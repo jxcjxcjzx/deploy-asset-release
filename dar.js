@@ -58,8 +58,8 @@ function deployMaps(diff) {
 
   var daArgs = [
     'da-all.json', 'da-entry.json', 'da-diff.json',
-    '--hash=0', '--rename={name}', '--nins', '--no-map',
-    '--overwrite', '--no-diff', '--no-outDir', '--no-outSuccess'
+    '--hash=0', '--rename={name}', '--nins', '--no-map', '--stack',
+    '--overwrite', '--no-diff', '--no-outSuccess', '--no-outError'
   ];
   spawn('da', daArgs, spawnOpts).on('close', function (code) {
     if (code !== 0) error('DEPLOY_MAPS_ERROR', '部署 MAP 文件失败');
